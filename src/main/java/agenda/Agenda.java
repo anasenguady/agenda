@@ -1,30 +1,81 @@
 package agenda;
 
-import java.time.LocalDate;
-import java.util.*;
+import java.time.*;
+import java.time.temporal.ChronoUnit;
 
-/**
- * Description : An agenda that stores events
- */
-public class Agenda {
+public class Event {
+
     /**
-     * Adds an event to this agenda
-     *
-     * @param e the event to add
+     * The myTitle of this event
      */
-    public void addEvent(Event e) {
-        // TODO : implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+    private final String myTitle;
+    
+    /**
+     * The starting time of the event
+     */
+    private final LocalDateTime myStart;
+
+    /**
+     * The durarion of the event 
+     */
+    private final Duration myDuration;
+
+
+    /**
+     * Constructs an event
+     *
+     * @param title the title of this event
+     * @param start the start time of this event
+     * @param duration the duration of this event
+     */
+    public Event(String title, LocalDateTime start, Duration duration) {
+        this.myTitle = title;
+        this.myStart = start;
+        this.myDuration = duration;
     }
 
     /**
-     * Computes the events that occur on a given day
+     * Tests if an event occurs on a given day
      *
-     * @param day the day toi test
-     * @return and iteraror to the events that occur on that day
+     * @param aDay the day to test
+     * @return true if the event occurs on that day, false otherwise
      */
-    public List<Event> eventsInDay(LocalDate day) {
-        // TODO : implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+    
+    public boolean isInDay(LocalDate aDay) {
+        boolean isInDay = false;
+        // On récupère la date de fin
+        LocalDateTime myEnd = myStart.plus(myDuration);
+        // If the given day is between start and end of event, event occurs on that day
+        if (aDay.compareTo(myStart.toLocalDate()) >= 0 && aDay.compareTo(myEnd.toLocalDate()) <= 0)
+            isInDay = true; 
+        return isInDay;
     }
+    
+    /**
+     * @return the myTitle
+     */
+    public String getTitle() {
+        return myTitle;
+    }
+
+    /**
+     * @return the myStart
+     */
+    public LocalDateTime getStart() {
+        return myStart;
+    }
+
+
+    /**
+     * @return the myDuration
+     */
+    public Duration getDuration() {
+        return myDuration;
+    }
+
+    @Override
+    public String toString() {
+        return getTitle();
+    }
+    
 }

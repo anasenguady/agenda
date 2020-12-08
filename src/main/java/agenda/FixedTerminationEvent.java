@@ -26,11 +26,18 @@ public class FixedTerminationEvent extends RepetitiveEvent {
      * </UL>
      * @param terminationInclusive the date when this event ends
      */
+    
+    LocalDate terminationInclusive;
+    LocalDateTime lastStart;
+    
+    long numberOfOccurrences;
+    
+    LocalDate date;
+            
     public FixedTerminationEvent(String title, LocalDateTime start, Duration duration, ChronoUnit frequency, LocalDate terminationInclusive) {
-         super(title, start, duration, frequency);
+        super(title, start, duration, frequency);
         // TODO : implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
-
+        this.terminationInclusive = terminationInclusive;
     }
 
     /**
@@ -50,21 +57,40 @@ public class FixedTerminationEvent extends RepetitiveEvent {
     public FixedTerminationEvent(String title, LocalDateTime start, Duration duration, ChronoUnit frequency, long numberOfOccurrences) {
         super(title, start, duration, frequency);
         // TODO : implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+        this.numberOfOccurrences = numberOfOccurrences;
     }
-
     /**
      *
      * @return the termination date of this repetitive event
      */
     public LocalDate getTerminationDate() {
         // TODO : implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");   
+        if (terminationInclusive != null)
+            return terminationInclusive;
+        //Calculate end date from numberOfOccurrences
+        lastStart = getStart().plus(numberOfOccurrences - 1, frequency);
+        
+        return lastStart.toLocalDate();
     }
 
     public long getNumberOfOccurrences() {
         // TODO : implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+
+        if (numberOfOccurrences < 0) 
+            throw new IllegalArgumentException("numberOfOccurrences ne peut pas être négatif");
+        if (numberOfOccurrences != 0) 
+            return numberOfOccurrences;
+        
+        //Calculer le nombre d'occurences à partir de la date de fin en utilisant frequency
+        LocalDate endDate = getTerminationDate();
+        date = getStart().toLocalDate();
+        long compteur = 0;
+        while (endDate.compareTo(date) > 0) {
+            date = date.plus(1, frequency);
+            compteur++;
+        }
+        return compteur;
     }
+    
         
 }

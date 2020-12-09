@@ -1,81 +1,39 @@
 package agenda;
 
-import java.time.*;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDate;
+import java.util.*;
 
-public class Event {
-
+/**
+ * Description : An agenda that stores events
+ */
+public class Agenda {
     /**
-     * The myTitle of this event
-     */
-    private final String myTitle;
-    
-    /**
-     * The starting time of the event
-     */
-    private final LocalDateTime myStart;
-
-    /**
-     * The durarion of the event 
-     */
-    private final Duration myDuration;
-
-
-    /**
-     * Constructs an event
+     * Adds an event to this agenda
      *
-     * @param title the title of this event
-     * @param start the start time of this event
-     * @param duration the duration of this event
+     * @param e the event to add
      */
-    public Event(String title, LocalDateTime start, Duration duration) {
-        this.myTitle = title;
-        this.myStart = start;
-        this.myDuration = duration;
+    
+    List<Event> agenda = new LinkedList<>();
+    
+    public void addEvent(Event e) {
+        // TODO : implémenter cette méthode
+        agenda.add(e);
     }
 
     /**
-     * Tests if an event occurs on a given day
+     * Computes the events that occur on a given day
      *
-     * @param aDay the day to test
-     * @return true if the event occurs on that day, false otherwise
+     * @param day the day toi test
+     * @return and iteraror to the events that occur on that day
      */
-    
-    public boolean isInDay(LocalDate aDay) {
-        boolean isInDay = false;
-        // On récupère la date de fin
-        LocalDateTime myEnd = myStart.plus(myDuration);
-        // If the given day is between start and end of event, event occurs on that day
-        if (aDay.compareTo(myStart.toLocalDate()) >= 0 && aDay.compareTo(myEnd.toLocalDate()) <= 0)
-            isInDay = true; 
-        return isInDay;
+    public List<Event> eventsInDay(LocalDate day) {
+        // TODO : implémenter cette méthode
+        List eventsInDay = new LinkedList<>();
+        for (Event event : agenda) {
+            if (event.isInDay(day))
+                eventsInDay.add(event);
+        }
+        return eventsInDay;
+        
     }
-    
-    /**
-     * @return the myTitle
-     */
-    public String getTitle() {
-        return myTitle;
-    }
-
-    /**
-     * @return the myStart
-     */
-    public LocalDateTime getStart() {
-        return myStart;
-    }
-
-
-    /**
-     * @return the myDuration
-     */
-    public Duration getDuration() {
-        return myDuration;
-    }
-
-    @Override
-    public String toString() {
-        return getTitle();
-    }
-    
 }

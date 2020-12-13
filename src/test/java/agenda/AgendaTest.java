@@ -54,4 +54,21 @@ public class AgendaTest {
     }
 
 
-}
+    LocalDateTime nov_12020_23_30 = LocalDateTime.of(2020, 11, 1, 23, 30);
+    LocalDateTime nov_12020_20_00 = LocalDateTime.of(2020, 11, 1, 20, 00);
+
+    Event event1 = new Event("Event 1", nov_12020_23_30, min_30); 
+    Event event2 = new Event("Event 2", nov_12020_20_00, min_30);
+
+    @Test
+    public void testFindByTitle(){
+        assertTrue(agenda.findByTitle("Simple event").contains(simple),"On devrait trouver le bon titre");
+        assertFalse(agenda.findByTitle("autre event").contains(simple),"On ne doit pas trouver le titre");
+    }
+
+    @Test 
+    public void testisFreeFor(){
+        assertFalse(agenda.isFreeFor(event1),"Il n'y a pas de place pour l'event 2");
+        assertTrue(agenda.isFreeFor(event2),"Il y a de la place pour l'event 1");
+    }
+
